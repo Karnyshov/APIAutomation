@@ -1,4 +1,3 @@
-import requests
 from utils.http_manager import HttpManager
 
 
@@ -7,18 +6,20 @@ class Api:
     LOGIN_URL = BASE_URL + "authenticate"
     LOGOUT_URL = BASE_URL + "logout"
 
-    @staticmethod
-    def auth():
+    def __init__(self):
+        self._httpManager = HttpManager()
+
+    def getHttpManager(self):
+        return self._httpManager
+
+    def login(self):
         url = Api.LOGIN_URL
         username = "tomsmith"
         password = "SuperSecretPassword!"
         data = {'username': username, 'password': password}
 
-        result = requests.post(url, data)
-        # print(result.cookies)
+        response = self._httpManager.post(url, data)
         # TODO: save cookie in Api.py or http_manager.py
-        HttpManager.cookie = {'rack.session': result.cookies.get('rack.session')}
-        print("API Cookie")
-        print(HttpManager.cookie)
+        self._httpManager.setCookies('rack.session', response.cookies.get('rack.session'))
 
-        return result
+        return response

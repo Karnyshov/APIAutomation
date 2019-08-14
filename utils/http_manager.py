@@ -2,17 +2,24 @@ import requests
 
 
 class HttpManager:
-    header = {"Content-Type": "application/x-www-form-urlencoded"}
-    cookie = {}
+    def __init__(self):
+        self._headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        self._cookies = {}
 
-    @staticmethod
-    def get(url):
-        result = requests.get(url, headers=HttpManager.header, cookies=HttpManager.cookie)
+    def setCookies(self, key, value):
+        self._cookies[key] = value
 
-        return result
+    def getCookies(self):
+        return self._cookies
 
-    @staticmethod
-    def post(url, data):
-        result = requests.post(url, data=data, headers=HttpManager.header, cookies=HttpManager.cookie)
+    def setHeader(self, key, value):
+        self._headers[key] = value
 
-        return result
+    def getHeaders(self):
+        return self._headers
+
+    def get(self, url):
+        return requests.get(url, headers=self.getHeaders(), cookies=self.getCookies())
+
+    def post(self, url, data):
+        return requests.post(url, data=data, headers=self.getHeaders(), cookies=self.getCookies())
