@@ -1,25 +1,45 @@
-from utils.http_manager import HttpManager
+import requests
 
 
 class Api:
     BASE_URL = "https://the-internet.herokuapp.com/"
-    LOGIN_URL = BASE_URL + "authenticate"
+    LOGIN_URL = BASE_URL + "login"
+    AUTH_URL = BASE_URL + "authenticate"
     LOGOUT_URL = BASE_URL + "logout"
 
+    USERNAME = "tomsmith"
+    PASSWORD = "SuperSecretPassword!"
+
     def __init__(self):
-        self._httpManager = HttpManager()
+        self._headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        self._cookies = {}
 
-    def getHttpManager(self):
-        return self._httpManager
+    def setCookies(self, key, value):
+        self._cookies[key] = value
 
-    def login(self):
-        url = Api.LOGIN_URL
-        username = "tomsmith"
-        password = "SuperSecretPassword!"
+    def getCookies(self):
+        return self._cookies
+
+    def setHeader(self, key, value):
+        self._headers[key] = value
+
+    def getHeaders(self):
+        return self._headers
+
+    def get(self, url):
+        return requests.get(url, headers=self.getHeaders(), cookies=self.getCookies())
+
+    def post(self, url, data):
+        return requests.post(url, data=data, headers=self.getHeaders(), cookies=self.getCookies())
+
+    def login(self, username=USERNAME, password=PASSWORD):
+        url = Api.AUTH_URL
         data = {'username': username, 'password': password}
 
-        response = self._httpManager.post(url, data)
-        # TODO: save cookie in Api.py or http_manager.py
-        self._httpManager.setCookies('rack.session', response.cookies.get('rack.session'))
+        response = self.post(url, data)
+        self.setCookies('rack.session', response.cookies.get('rack.session'))
+
+        assert 200 == response.status_code
+        assert True == ("Welcome to the Secure Area." in response.text)
 
         return response
