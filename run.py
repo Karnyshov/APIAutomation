@@ -9,7 +9,7 @@ def extend_suite(cases):
 
 suite = unittest.TestSuite()
 
-if int(os.getenv('reqres', '1')) == 1:
+if int(os.getenv('auth', '1')) == 1:
     from tests.test_authentication import TestAuth
 
     extend_suite([TestAuth])
