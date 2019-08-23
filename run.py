@@ -10,9 +10,9 @@ def extend_suite(cases):
 suite = unittest.TestSuite()
 
 if int(os.getenv('auth', '1')) == 1:
-    from tests.test_authentication import TestAuth
+    from tests.test_authentication import TestFlow
 
-    extend_suite([TestAuth])
+    extend_suite([TestFlow])
 
 
 def run():
