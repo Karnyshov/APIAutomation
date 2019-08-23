@@ -1,9 +1,11 @@
 import pytest
 
+from utils.api import Api
+
 
 @pytest.fixture()
-def authentication(api):
-    response = api.login()
+def authentication():
+    response = Api().login()
 
     assert 200 == response.status_code
     assert True == ("Welcome to the Secure Area." in response.text)
