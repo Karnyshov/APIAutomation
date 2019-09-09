@@ -1,7 +1,10 @@
 from utils.template import Template
+import logging
 
 
 class TestFlow(Template):
+
+    logger = logging.getLogger(__name__)
 
     def test_ping_login(self):
         response = self.api.get(self.api.LOGIN_URL)
