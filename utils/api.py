@@ -14,7 +14,7 @@ class Api:
     def __init__(self):
         self._headers = {"Content-Type": "application/x-www-form-urlencoded"}
         self._cookies = {}
-#        self.Logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(__name__)
 
     def setCookies(self, key, value):
         self._cookies[key] = value
@@ -29,12 +29,11 @@ class Api:
         return self._headers
 
     def get(self, url):
-#        self.Logger.info("Sending GET request to {}".format(url))
-        logging.info("Sending GET request to {}".format(url))
+        self.logger.info("Sending GET request to {}".format(url))
         return requests.get(url, headers=self.getHeaders(), cookies=self.getCookies())
 
     def post(self, url, data):
-        logging.info("Sending POST request with {} to {}".format(data, url))
+        self.logger.info("Sending POST request with {} to {}".format(data, url))
         return requests.post(url, data=data, headers=self.getHeaders(), cookies=self.getCookies())
 
     def login(self, username=USERNAME, password=PASSWORD):
