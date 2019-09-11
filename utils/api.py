@@ -11,6 +11,8 @@ class Api:
     USERNAME = "tomsmith"
     PASSWORD = "SuperSecretPassword!"
 
+    logger = logging.getLogger(__name__)
+
     def __init__(self):
         self._headers = {"Content-Type": "application/x-www-form-urlencoded"}
         self._cookies = {}
@@ -29,11 +31,11 @@ class Api:
         return self._headers
 
     def get(self, url):
-        self.logger.info("Sending GET request to {}".format(url))
+        Api.logger.info("GET request to {}".format(url))
         return requests.get(url, headers=self.getHeaders(), cookies=self.getCookies())
 
     def post(self, url, data):
-        self.logger.info("Sending POST request with {} to {}".format(data, url))
+        Api.logger.info("POST request with {} to {}".format(data, url))
         return requests.post(url, data=data, headers=self.getHeaders(), cookies=self.getCookies())
 
     def login(self, username=USERNAME, password=PASSWORD):
