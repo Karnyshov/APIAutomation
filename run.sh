@@ -2,9 +2,9 @@
 #TeamCity
 
 pip install virtualenv
-venv --no-site-packages TestEnv
-PYENV_HOME=/TestEnv
-source $PYENV_HOME/bin/activate
+virtualenv --no-site-packages TestEnv
+mkdir tmp
+source TestEnv/bin/activate
 pip install -r requirements.txt
-pytest test_authentication.py
+pytest test/authentication.py
 deactivate
